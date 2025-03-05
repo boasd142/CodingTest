@@ -1,0 +1,37 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int solution(int a, int b, int c, int d) {
+    vector<int> numbers = { a, b, c, d };
+    sort(numbers.begin(), numbers.end());
+
+    if (numbers[0] == numbers[3]) {
+        return 1111 * numbers[0];
+    }
+    else if (numbers[0] == numbers[2] || numbers[1] == numbers[3]) {
+        int p = (numbers[0] == numbers[2]) ? numbers[0] : numbers[3];
+        int q = (numbers[0] == numbers[2]) ? numbers[3] : numbers[0];
+        return (10 * p + q) * (10 * p + q);
+    }
+    else if ((numbers[0] == numbers[1] && numbers[2] == numbers[3])) {
+        return (numbers[0] + numbers[2]) * abs(numbers[0] - numbers[2]);
+    }
+    else if (numbers[0] == numbers[1] || numbers[1] == numbers[2] || numbers[2] == numbers[3]) {
+        int single1, single2;
+        if (numbers[0] == numbers[1]) single1 = numbers[2], single2 = numbers[3];
+        else if (numbers[1] == numbers[2]) single1 = numbers[0], single2 = numbers[3];
+        else single1 = numbers[0], single2 = numbers[1];
+
+        return single1 * single2;
+    }
+    else {
+        return numbers[0];
+    }
+}
+
+int main() {
+    cout << solution(5, 2, 5, 7) << endl;
+}
