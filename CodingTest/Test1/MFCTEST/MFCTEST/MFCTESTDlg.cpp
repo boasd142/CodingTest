@@ -88,7 +88,7 @@ BOOL CMFCTESTDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 	std::cout << "console started" << std::endl;
-	// 시스템 메뉴에 "정보..." 메뉴 항목을 추가합니다.
+
 	int nWidth = 1080;
 	int nHeight = 800;
 	int nBpp = 8;
@@ -105,8 +105,10 @@ BOOL CMFCTESTDlg::OnInitDialog()
 
 	int nPitch = m_image.GetPitch();
 	unsigned char* fm = (unsigned char*)m_image.GetBits();
+	memset(fm, 0xff, nWidth * nHeight);
 	
-	memset(fm, 0xff, nWidth*nHeight);
+	
+
 	// IDM_ABOUTBOX는 시스템 명령 범위에 있어야 합니다.
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
@@ -157,7 +159,6 @@ void CMFCTESTDlg::OnPaint()
 	if (IsIconic())
 	{
 		CPaintDC dc(this); // 그리기를 위한 디바이스 컨텍스트입니다.
-
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
 		// 클라이언트 사각형에서 아이콘을 가운데에 맞춥니다.
@@ -173,7 +174,8 @@ void CMFCTESTDlg::OnPaint()
 	}
 	else
 	{
-		CDialogEx::OnPaint();
+		updateDisplay();
+		//CDialogEx::OnPaint();
 	}
 }
 
@@ -320,9 +322,7 @@ void CMFCTESTDlg::RESET() {
 
 	points.clear();
 	nCcount = 0;
-
 	std::cout << "Reset background and clear all points" << std::endl;
-
 	updateDisplay();
 }
 
@@ -391,7 +391,7 @@ void CMFCTESTDlg::drawLargeCircle(unsigned char* fm, const std::vector<std::pair
 
 	std::cout << "Circumcircle Center: (" << (int)cx << ", " << (int)cy << "), Radius: " << radius << std::endl;
 
-	drawCircle(fm, (int)cx, (int)cy, radius + thick/2, 0);
+	drawCircle(fm, (int)cx, (int)cy, radius + thick/2, 1);
 	drawCircle(fm, (int)cx, (int)cy, radius - thick/2, 255);	
 	
 }
